@@ -1,0 +1,13 @@
+{
+    "name": "payboxmoney/core",
+    "type": "library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Sergey Astapenko",
+            "email": "sa@paybox.money"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
