@@ -8,6 +8,14 @@
             "email": "sa@paybox.money"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Paybox\\Core\\": "src/",
+            "Paybox\\Core\\Abstractions\\": "src/abstractions/",
+            "Paybox\\Core\\Exceptions\\": "src/exceptions/",
+            "Paybox\\Core\\Interfaces\\": "src/interfaces/"
+        }
+    },
     "minimum-stability": "stable",
     "require": {}
 }
