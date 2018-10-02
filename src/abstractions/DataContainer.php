@@ -109,7 +109,7 @@ abstract class DataContainer extends DataProvider {
     private function addModel(DataContainer $model):void {
         $defProps = (new ReflectionClass($model))
             ->getProperties(ReflectionProperty::IS_PUBLIC);
-        $default = [];
+        $default = ['prefix', 'delimeter'];
         foreach($defProps as $prop) {
             $property = $prop->name;
             if(!empty($model->$property)) {
@@ -244,7 +244,6 @@ abstract class DataContainer extends DataProvider {
         return ($this->isDefault($model, $property))
             ? $this->toQueryProperty($model, $property)
             : $property;
-
     }
 
     /**
@@ -261,10 +260,18 @@ abstract class DataContainer extends DataProvider {
                 ? $model . $this->delimeter . $property
                 : $property;
         }
-        $property = (strtolower($property) == 'refundamount')
-            ? 'refund' . $this->delimeter . 'amount'
-            : $property;
-        return $this->toProperty($property);
+        return $this->toProperty(
+            implode(
+                $this->delimeter,
+                array_map(
+                    'strtolower',
+                    preg_split(
+                        '/(?=[A-Z])/',
+                        $property
+                    )
+                )
+            )
+        );
     }
 
     /**
@@ -276,7 +283,7 @@ abstract class DataContainer extends DataProvider {
      */
 
     private function toProperty(string $property):string {
-        return $this->prefix . $this->delimeter . strtolower($property);
+        return $this->prefix . $this->delimeter . $property;
     }
 
     /**
