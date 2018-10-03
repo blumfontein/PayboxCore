@@ -155,7 +155,7 @@ abstract class DataContainer extends DataProvider {
             : $this->url;
 
         $url = explode('/', $this->url);
-        unset($arr[$this->toProperty('secretkey')]);
+        unset($arr[$this->prefix . $this->delimeter . 'secret' . $this->delimeter . 'key']);
         $arr[$this->toProperty('salt')] = $salt;
         ksort($arr);
         array_unshift($arr, end($url));
