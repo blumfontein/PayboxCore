@@ -263,11 +263,15 @@ abstract class DataContainer extends DataProvider {
         return $this->toProperty(
             implode(
                 $this->delimeter,
-                array_map(
-                    'strtolower',
-                    preg_split(
-                        '/(?=[A-Z])/',
-                        $property
+                array_filter(
+                    str_replace('is', null,
+                        array_map(
+                            'strtolower',
+                            preg_split(
+                                '/(?=[A-Z])/',
+                                $property
+                            )
+                        )
                     )
                 )
             )
