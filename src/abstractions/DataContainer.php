@@ -66,10 +66,10 @@ abstract class DataContainer extends DataProvider {
      *
      */
 
-    protected function save($script = null):void {
+    protected function save($script = null, $use_ext = true):void {
         $this->url = (is_null($script))
             ? $_SERVER['REQUEST_URI']
-            : $script . '.php';
+            : ($use_ext ? $script . '.php' : $script);
         $this->checkFilling();
         foreach($this as $object) {
             if($this->isModel($object)) {
@@ -256,10 +256,15 @@ abstract class DataContainer extends DataProvider {
     private function toQueryProperty(DataContainer $model, string $property):string {
         $model = strtolower((new ReflectionClass($model))->getShortName());
         if($property == 'id') {
-            $property = (($model == 'merchant') || ($model == 'order') || ($model == 'payment'))
-                ? $model . $this->delimeter . $property
-                : $property;
+            if ($model == 'customer') {
+                $property = 'user' . $this->delimeter . $property;
+            } else {
+                $property = (in_array($model, ['merchant', 'order', 'payment', 'card']))
+                    ? $model . $this->delimeter . $property
+                    : $property;
+            }
         }
+
         return $this->toProperty(
             implode(
                 $this->delimeter,
