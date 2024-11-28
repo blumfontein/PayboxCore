@@ -68,7 +68,7 @@ abstract class DataContainer extends DataProvider {
 
     protected function save($script = null, $use_ext = true):void {
         $this->url = (is_null($script))
-            ? $_SERVER['REQUEST_URI']
+            ? $_SERVER['REQUEST_URI'] ?? null
             : ($use_ext ? $script . '.php' : $script);
         $this->checkFilling();
         foreach($this as $object) {
@@ -151,7 +151,7 @@ abstract class DataContainer extends DataProvider {
                 : $arr[$this->toProperty('secretkey')];
 
         $this->url = (empty($this->url))
-            ? parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+            ? parse_url($_SERVER['REQUEST_URI'] ?? null, PHP_URL_PATH)
             : $this->url;
 
         $url = explode('/', $this->url);
